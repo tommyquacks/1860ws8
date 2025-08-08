@@ -10,17 +10,18 @@ CHIP P2S {
     Bit(in=flag0in, load=true, out=flag0);
     Bit(in=flag0, load=true, out=flag1);
     Bit(in=flag1, load=true, out=flag2);
-    Bit(in=flag2, load=true, out=complete);
+    Bit(in=flag2, load=true, out=internal_complete);
     Or(a=flag0, b=flag1, out=or01);
-    Or(a=flag2, b=complete, out=or23);
+    Or(a=flag2, b=internal_complete, out=or23);
     Or(a=or01, b=or23, out=busy);
     Not(in=busy, out=idle);
     And(a=idle, b=enable, out=flag0in);
     And(a=data0, b=flag0, out=sand0);
     And(a=data1, b=flag1, out=sand1);
     And(a=data2, b=flag2, out=sand2);
-    And(a=data3, b=complete, out=sand3);
+    And(a=data3, b=internal_complete, out=sand3);
     Or(a=sand0, b=sand1, out=sor01);
     Or(a=sand2, b=sand3, out=sor23);
     Or(a=sor01, b=sor23, out=sout);
+    And(a=true, b=internal_complete, out=complete);
 }
